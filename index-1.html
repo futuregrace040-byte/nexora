@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXORA</title>
+<style>
+:root{--purple:#6c3cff;--blue:#2196f3;--green:#27ae60;--orange:#ffb020;--navy:#0f172a;--bg:#f7f8fa}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--navy)}
+.shell{max-width:1100px;margin:auto;padding:28px 22px 110px}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.logo{font-size:42px;font-weight:900;letter-spacing:-2px}.logo span{color:var(--purple)}.tagline{font-size:16px;color:#667085}
+.avatar{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#111827;color:#fff;font-weight:800}
+.searchWrap{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #eee;border-radius:22px;padding:15px 18px;box-shadow:0 8px 30px #1720330d}
+.searchWrap input{border:0;outline:0;flex:1;font-size:17px}.searchWrap button{border:0;background:#f0ecff;color:var(--purple);border-radius:14px;padding:10px 13px}
+.categories{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;background:#fff;border-radius:24px;padding:20px;margin:20px 0}
+.cat{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:9px;color:var(--navy);cursor:pointer;text-align:center;font-size:13px}
+.icon,.thumb{display:grid;place-items:center;border-radius:17px}.icon{width:54px;height:54px}.purple{background:#eee9ff;color:#6c3cff}.blue{background:#e6f3ff;color:#1687e8}.green{background:#e7f8ef;color:#1e9a55}.orange{background:#fff0d7;color:#d98a00}.yellow{background:#fff5d8;color:#d99800}.violet{background:#f0e9ff;color:#6c3cff}.teal{background:#e4f8f7;color:#159d9a}
+.sectionTitle{display:flex;justify-content:space-between;align-items:center}.sectionTitle h1{font-size:24px}.feed{display:grid;gap:14px}
+.card{background:#fff;border-radius:22px;padding:18px;display:flex;gap:16px;box-shadow:0 7px 24px #17203308}.thumb{width:76px;height:76px;flex:0 0 76px}
+.cardBody{flex:1}.pill{display:inline-block;padding:5px 9px;border-radius:8px;font-size:11px;font-weight:800}.card h2{font-size:19px;margin:8px 0}.card p{margin:6px 0;font-size:14px}.muted{color:#667085}.rating{color:#f0a000;font-weight:700}
+.cta{float:right;border:0;background:var(--purple);color:#fff;border-radius:13px;padding:11px 15px;font-weight:700}.fab{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);width:62px;height:62px;border:0;border-radius:50%;background:var(--purple);color:#fff;font-size:28px;box-shadow:0 12px 30px #6c3cff55;z-index:5}
+.bottom{position:fixed;bottom:0;left:0;right:0;height:78px;background:#fff;border-top:1px solid #eee;display:flex;justify-content:center;gap:clamp(15px,5vw,65px);z-index:4}
+.bottom button{border:0;background:transparent;color:#7b8495;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:11px}.bottom .active{color:var(--purple);font-weight:800}
+@media(max-width:800px){.categories{grid-template-columns:repeat(4,1fr)}.logo{font-size:34px}}@media(max-width:520px){.shell{padding:20px 14px 105px}.categories{grid-template-columns:repeat(2,1fr)}.card{padding:13px}.thumb{width:60px;height:60px;flex-basis:60px}.card h2{font-size:16px}.cta{float:none;margin-top:8px}.bottom{gap:12px}.bottom button{font-size:9px}}
+</style>
+
+<style>
+.modal label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}.modal input,.modal textarea,.modal select{width:100%;border:1px solid #e5e7eb;border-radius:13px;padding:12px;background:#fafafa;outline:none}.modal textarea{min-height:90px;resize:vertical}.publishBtn{width:100%;margin-top:16px;border:0;border-radius:14px;padding:13px;background:var(--purple);color:#fff;font-weight:800}
+@media(max-width:520px){.modal{padding:22px 18px}.publishGrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="header">
+<div><div class="logo">NEX<span>ORA</span></div><div class="tagline">Connecte-toi. Crée. <b>Avance.</b></div></div>
+<div class="avatar">DF</div>
+</header>
+<div class="searchWrap"><span>🔎</span><input id="search" placeholder="Que recherches-tu aujourd'hui ?"><button onclick="search()">Rechercher</button></div>
+<div class="categories">
+<button class="cat" onclick="filter('Emploi')"><span class="icon purple">💼</span>Emploi & missions</button>
+<button class="cat" onclick="filter('Services')"><span class="icon blue">🛠️</span>Services</button>
+<button class="cat" onclick="filter('Produits')"><span class="icon green">🛒</span>Produits</button>
+<button class="cat" onclick="filter('Partenariat')"><span class="icon orange">🤝</span>Partenariats</button>
+<button class="cat" onclick="filter('Formation')"><span class="icon yellow">🎓</span>Formations</button>
+<button class="cat" onclick="filter('Logement')"><span class="icon violet">🏠</span>Logement</button>
+<button class="cat" onclick="filter('Transport')"><span class="icon teal">🚗</span>Transport</button>
+</div>
+<div class="sectionTitle"><h1 id="title">À découvrir près de vous</h1></div>
+<div class="feed" id="feed">
+<div class="card" data-cat="Services"><div class="thumb blue">🛠️</div><div class="cardBody"><span class="pill blue">SERVICE</span><h2>Développeur web freelance</h2><p>Création de sites et applications modernes.</p><p class="muted">📍 Kinshasa · ⭐ <span class="rating">4.9</span></p><button class="cta">Voir l'offre</button></div></div>
+<div class="card" data-cat="Emploi"><div class="thumb purple">💼</div><div class="cardBody"><span class="pill purple">EMPLOI</span><h2>Assistant commercial</h2><p>Une opportunité pour rejoindre une équipe dynamique.</p><p class="muted">📍 Kinshasa · Temps plein</p><button class="cta">Postuler</button></div></div>
+<div class="card" data-cat="Produits"><div class="thumb green">🛒</div><div class="cardBody"><span class="pill green">PRODUIT</span><h2>Smartphone neuf</h2><p>Découvrez des produits proposés par des vendeurs locaux.</p><p class="muted">📍 Kinshasa · Disponible</p><button class="cta">Découvrir</button></div></div>
+</div>
+</div>
+
+<div id="publishModal" class="modalBack" style="display:none" onclick="if(event.target===this)closePublish()">
+  <div class="modal">
+    <button class="close" onclick="closePublish()">×</button>
+    <h2 style="margin:0 0 6px">Publier sur NEXORA</h2>
+    <p class="muted" style="margin-top:0">Crée une annonce visible par les autres utilisateurs.</p>
+    <form id="publishForm" onsubmit="publishListing(event)">
+      <label>Type d’annonce</label>
+      <select id="pCategory" required>
+        <option value="Services">🛠️ Service</option>
+        <option value="Produits">🛒 Produit</option>
+        <option value="Emploi">💼 Emploi & mission</option>
+        <option value="Partenariat">🤝 Partenariat</option>
+        <option value="Formation">🎓 Formation</option>
+        <option value="Logement">🏠 Logement</option>
+        <option value="Transport">🚗 Transport</option>
+      </select>
+      <label>Titre</label><input id="pTitle" required maxlength="100" placeholder="Ex. Développeur web freelance">
+      <label>Description</label><textarea id="pDescription" required maxlength="500" placeholder="Décris ton offre..."></textarea>
+      <label>Localisation</label><input id="pLocation" required maxlength="100" placeholder="Ex. Kinshasa, RDC">
+      <label>Prix / budget (optionnel)</label><input id="pPrice" type="number" min="0" step="0.01" placeholder="Ex. 150">
+      <button class="publishBtn" type="submit">Publier l’annonce</button>
+      <p id="publishStatus" class="muted" style="text-align:center"></p>
+    </form>
+  </div>
+</div>
+
+<button class="fab" onclick="openPublish()">＋</button>
+<nav class="bottom"><button class="active">🏠<span>Accueil</span></button><button>🔎<span>Explorer</span></button><button onclick="openPublish()">➕<span>Publier</span></button><button>💬<span>Messages</span></button><button>👤<span>Profil</span></button></nav>
+<script>
+function openPublish(){document.getElementById('publishModal').style.display='grid'}
+function closePublish(){document.getElementById('publishModal').style.display='none'}
+function publishListing(e){
+  e.preventDefault();
+  const listing={id:Date.now(),category:pCategory.value,title:pTitle.value.trim(),description:pDescription.value.trim(),location:pLocation.value.trim(),price:pPrice.value,createdAt:new Date().toISOString()};
+  const listings=JSON.parse(localStorage.getItem('nexora_listings')||'[]');
+  listings.unshift(listing); localStorage.setItem('nexora_listings',JSON.stringify(listings));
+  addListingCard(listing,true); document.getElementById('publishStatus').textContent='Annonce publiée sur cet appareil ✓';
+  setTimeout(()=>{document.getElementById('publishForm').reset();closePublish();document.getElementById('publishStatus').textContent=''},900);
+}
+function addListingCard(x,prepend=false){
+  const icons={Services:'🛠️',Produits:'🛒',Emploi:'💼',Partenariat:'🤝',Formation:'🎓',Logement:'🏠',Transport:'🚗'};
+  const card=document.createElement('div');card.className='card';card.dataset.cat=x.category;
+  card.innerHTML=`<div class="thumb blue">${icons[x.category]||'📌'}</div><div class="cardBody"><span class="pill blue">${x.category.toUpperCase()}</span><h2>${escapeHtml(x.title)}</h2><p>${escapeHtml(x.description)}</p><p class="muted">📍 ${escapeHtml(x.location)}${x.price?' · '+escapeHtml(x.price)+' $':''}</p><button class="cta">Voir l'offre</button></div>`;
+  document.getElementById('feed')[prepend?'prepend':'appendChild'](card);
+}
+function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]));}
+function loadListings(){JSON.parse(localStorage.getItem('nexora_listings')||'[]').forEach(x=>addListingCard(x,false))}
+function filter(cat){document.getElementById('title').textContent='Catégorie : '+cat;document.querySelectorAll('.card').forEach(c=>c.style.display=(c.dataset.cat===cat?'flex':'none'))}
+function search(){let q=document.getElementById('search').value.toLowerCase();document.getElementById('title').textContent=q?'Résultats pour : '+q:'À découvrir près de vous';document.querySelectorAll('.card').forEach(c=>c.style.display=(!q||c.innerText.toLowerCase().includes(q))?'flex':'none')}
+loadListings();
+</script>
+</body>
+</html>
